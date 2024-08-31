@@ -11,10 +11,11 @@ class PanoramaDataset(Dataset):
         self.mask_dir = mask_dir
         self.transform
 
-
-
-
     def __getitem__(self, idx: int) -> Tuple[Tensor, Tensor]:
         name = "1{idx:04d}_00001.nii.gz"
         img = f'{self.img_dir}/{name}'
         mask = f'{self.mask_dir}/{name}'
+        if self.transform:
+            image = self.transform(image)
+            mask = self.transform(mask)
+        return image, mask
